@@ -62,12 +62,10 @@ class InferlessPythonModel:
         parsed_text = self.pdf_to_text(book_name)
                 
         all_summaries_list = []
-
         for chunk in self.split_text_into_chunks(parsed_text, chunk_size=4000):
             chunk_summary = self.generate_summary(0,200,chunk)
             all_summaries_list.append(chunk_summary)
         
-        # Combine all summaries into a single summary
         all_summaries = "\n\n".join(all_summaries_list)
         final_summary = self.generate_summary(0,1024,all_summaries)
         wav_file = io.BytesIO()
@@ -81,7 +79,6 @@ class InferlessPythonModel:
         audio_base64 = base64.b64encode(wav_file.getvalue()).decode('utf-8')
             
         return {"generated_audio_base64":audio_base64}
-
 
     def finalize(self):
         self.llm = None
