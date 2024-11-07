@@ -8,9 +8,6 @@ import base64
 import requests
 import os
 
-os.environ["COQUI_TOS_AGREED"] = "1"
-os.environ["HF_TOKEN"] = "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"
-
 class InferlessPythonModel:
     @staticmethod
     def pdf_to_text(pdf_path):
