@@ -1,6 +1,6 @@
 version: 1.0.0
 
-name: Speech-Book-Summary
+name: Book-Audio-Summary-Generator
 import_source: GIT
 
 # you can choose the options between ONNX, TENSORFLOW, PYTORCH
@@ -43,6 +43,6 @@ optional:
   input_file_name: input.json
   output_file_name: output.json
   runtime_file_name: inferless-runtime-config.yaml
-model_url: https://github.com/inferless/Speech-Book-Summary.git
+model_url: https://github.com/inferless/Book-Audio-Summary-Generator.git
 provider: GITHUB
 io_schema: true
