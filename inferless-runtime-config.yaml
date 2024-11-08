@@ -1,6 +1,6 @@
 build:
   cuda_version: "12.1.1"
   python_packages:
-    - vllm==0.6.3
+    - vllm==0.6.2
     - coqui-tts==0.24.3
     - pypdf==4.3.1
