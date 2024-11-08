@@ -57,7 +57,6 @@ class InferlessPythonModel:
         input_text = self.tokenizer.apply_chat_template(messages, tokenize=False)
         result = self.llm.generate(input_text, sampling_params)
         summary = [output.outputs[0].text for output in result][0].split("<|start_header_id|>assistant<|end_header_id|>")[-1]
-        
         return summary
         
     def recursive_summarize(self,text_chunks, prompts_idx, max_tokens, batch_size):
@@ -93,7 +92,6 @@ class InferlessPythonModel:
                 language="en",
         )    
         audio_base64 = base64.b64encode(wav_file.getvalue()).decode('utf-8')
-            
         return {"generated_audio_base64":audio_base64}
 
     def finalize(self):
