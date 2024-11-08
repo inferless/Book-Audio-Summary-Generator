@@ -6,7 +6,6 @@ import torch
 import io
 import base64
 import requests
-import os
 
 class InferlessPythonModel:
     @staticmethod
