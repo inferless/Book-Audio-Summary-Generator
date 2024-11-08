@@ -32,7 +32,29 @@ Log in to your inferless account, select the workspace you want the model to be 
 Select the PyTorch as framework and choose **Repo(custom code)** as your model source and select your provider, and use the forked repo URL as the **Model URL**.
 
 Enter all the required details to Import your model. Refer [this link](https://docs.inferless.com/integrations/github-custom-code) for more information on model import.
-
+---
+## Curl Command
+Following is an example of the curl command you can use to make inference. You can find the exact curl command in the Model's API page in Inferless.
+```bash
+curl --location '<your_inference_url>' \
+          --header 'Content-Type: application/json' \
+          --header 'Authorization: Bearer <your_api_key>' \
+          --data '{
+                  "inputs": [
+                              {
+                                  "name": "book_url",
+                                  "shape": [
+                                      1
+                                  ],
+                                  "data": [
+                                      "https://github.com/rbgo404/Files/raw/main/LearnGenerativeAI.pdf"
+                                  ],
+                                  "datatype": "BYTES"
+                              }
+                          ]  
+                }
+            '
+```
 ---
 ## Customizing the Code
 Open the `app.py` file. This contains the main code for inference. It has three main functions, initialize, infer and finalize.
