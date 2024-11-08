@@ -36,9 +36,17 @@ class InferlessPythonModel:
         
         device = "cuda" if torch.cuda.is_available() else "cpu"
         self.tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
-        self.prompts = ["Summarizing the following text from the chapters of a book.",
-                       "Write comprehensive notes summarizing the following book. Write in a such a way that it can be read as a speech. Follow this format: Summary of the book <Book-Name>; Introduction; Summarize the chapters in short; Conclusion"
-                       ]
+        self.prompts = prompts = [
+            "Summarizing the following text from the chapters of a book.",
+            "Write comprehensive notes summarizing the following text from the book.",
+            """Based on the summaries provided, compose a comprehensive summary of the book titled '<Book-Name>' suitable for a speech. Follow this structure:**
+                 1. **Summary of the Book '<Book-Name>':** Provide a brief overview capturing the essence of the book.
+                 2. **Introduction:** Introduce the main themes, purposes, and significance of the book.
+                 3. **Chapter Summaries:** Briefly summarize each chapter, highlighting key events, developments, and insights.
+                 4. **Conclusion:** Conclude by summarizing the overall impact of the book and its contributions.
+         
+             **Ensure the speech is engaging, coherent, and maintains a consistent tone throughout."""
+        ]
         
     def generate_summary(self,prompts_idx,max_tokens,chunk):
         sampling_params = SamplingParams(max_tokens=max_tokens)
@@ -52,20 +60,32 @@ class InferlessPythonModel:
         
         return summary
         
+    def recursive_summarize(self,text_chunks, prompts_idx, max_tokens, batch_size):
+        summaries = []
+        for i in range(0, len(text_chunks), batch_size): 
+            batch = "\n\n".join(text_chunks[i:i + batch_size])
+            batch_summary = self.generate_summary(prompts_idx, max_tokens, batch)
+            summaries.append(batch_summary)
+            
+        if len("\n\n".join(summaries).split(" "))>4000:
+            return self.recursive_summarize(summaries, prompts_idx, max_tokens, batch_size)
+        else:
+            final_summaries = "\n\n".join(summaries)
+            final_summary = self.generate_summary(2, 1024,final_summaries)
+            return final_summary
+        
     def infer(self,inputs):
         book_url = inputs['book_url']
         book_name = self.download_book(book_url)
         parsed_text = self.pdf_to_text(book_name)
-                
-        all_summaries_list = []
-        for chunk in self.split_text_into_chunks(parsed_text, chunk_size=4000):
-            chunk_summary = self.generate_summary(0,200,chunk)
-            all_summaries_list.append(chunk_summary)
         
-        all_summaries = "\n\n".join(all_summaries_list)
-        final_summary = self.generate_summary(0,1024,all_summaries)
+        initial_summaries = [
+            self.generate_summary(0, 200, chunk)
+            for chunk in self.split_text_into_chunks(parsed_text, chunk_size=4000)
+        ]
+        final_summary = self.recursive_summarize(initial_summaries, 1, 1024, batch_size=5)
+        
         wav_file = io.BytesIO()
-        
         self.tts.tts_to_file(
                 text=final_summary,
                 file_path=wav_file,
