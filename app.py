@@ -70,7 +70,7 @@ class InferlessPythonModel:
             return self.recursive_summarize(summaries, prompts_idx, max_tokens, batch_size)
         else:
             final_summaries = "\n\n".join(summaries)
-            final_summary = self.generate_summary(2, 1024,final_summaries)
+            final_summary = self.generate_summary(2, max_tokens,final_summaries)
             return final_summary
         
     def infer(self,inputs):
