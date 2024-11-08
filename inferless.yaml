@@ -30,6 +30,7 @@ configuration:
   vcpu: '20.0'
   ram: '200'
 env:
+  # COQUI_TOS_AGREED is required for downloading the xTTS Model
   COQUI_TOS_AGREED: '1'
   HF_TOKEN: <YOUR-HF-ACCESS-TOKEN>
   # Add your environment variables here
