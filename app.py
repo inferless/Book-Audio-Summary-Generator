@@ -6,6 +6,8 @@ import torch
 import io
 import base64
 import requests
+import os
+os.environ["COQUI_TOS_AGREED"]="1"
 
 class InferlessPythonModel:
     @staticmethod
