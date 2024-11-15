@@ -1,5 +1,5 @@
 # Cookbook: Book-Audio-Summary-Generator
-- Welcome to an engaging tutorial designed to walk you through creating a customer support voicebot where users can voice their queries and receive solutions. You’ll learn to integrate speech recognition, large language, and text-to-speech models to develop a responsive and efficient voice-based customer support application.
+- Welcome to an engaging tutorial designed to walk you through building a book audio summary generator, where we use large language model(LLM) with text-to-speech model(TTS) to process PDF books, extract key ideas, quotes, and actionable items, and convert them into engaging audio summaries.
 ## Architecture
 <img width="1339" alt="image" src="https://github.com/user-attachments/assets/b28104b7-1c5f-48bd-bd02-e5cbed4c4d83">
 
@@ -32,6 +32,7 @@ Log in to your inferless account, select the workspace you want the model to be 
 Select the PyTorch as framework and choose **Repo(custom code)** as your model source and select your provider, and use the forked repo URL as the **Model URL**.
 
 Enter all the required details to Import your model. Refer [this link](https://docs.inferless.com/integrations/github-custom-code) for more information on model import.
+
 ---
 ## Curl Command
 Following is an example of the curl command you can use to make inference. You can find the exact curl command in the Model's API page in Inferless.
