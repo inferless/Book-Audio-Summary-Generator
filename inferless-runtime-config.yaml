@@ -4,3 +4,5 @@ build:
     - vllm==0.6.2
     - coqui-tts==0.24.3
     - pypdf==4.3.1
+    - hf-transfer==0.1.9
+    - huggingface-hub==0.29.1
